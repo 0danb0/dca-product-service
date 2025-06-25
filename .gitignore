@@ -34,3 +34,7 @@ build/
 
 ### Properties ###
 application.yml
+
+### Localstack ###
+localstack-data/
+localstack-data/
