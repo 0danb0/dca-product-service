@@ -5,14 +5,14 @@ services:
     image: localstack/localstack:latest
     container_name: localstack
     ports:
-      - "4566:4566"  # Porta per i servizi AWS
+      - "4566:4566"
     environment:
       - SERVICES=s3,dynamodb
       - DEBUG=1
-      - DATA_DIR=/tmp/localstack/data  # Path interno per i dati persistenti
+      - DATA_DIR=/var/lib/localstack/data  # <-- directory alternativa
       - AWS_ACCESS_KEY_ID=test
       - AWS_SECRET_ACCESS_KEY=test
       - DEFAULT_REGION=us-east-1
     volumes:
-      - ./localstack-data:/tmp/localstack  # Persistenza locale dei dati
+      - ./localstack-data:/var/lib/localstack/data  # <-- volume spostato
       - /var/run/docker.sock:/var/run/docker.sock

@@ -7,16 +7,17 @@ spring:
 aws:
   s3:
     bucket: "invoices"
-    region: "aa-ddddd-00"
+    region: "us-east-1"
+    endpoint: "http://localhost:4566"
     keys:
-      access:
-      secret:
+      access: "test"
+      secret: "test"
   dynamodb:
-    region:
-    endpoint:
+    region: "us-east-1"
+    endpoint: "http://localhost:4566"
     keys:
-      access:
-      secret:
+      access: "test"
+      secret: "test"
 
 security:
   licensed-apps:
