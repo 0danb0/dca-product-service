@@ -8,8 +8,15 @@ dca:
       zapier: "1111111-2222-3333-4444-5555555"
 
 aws:
-  accessKeyId: ""
-  secretAccessKey: ""
   s3:
     bucket: "invoices"
     region: "aa-ddddd-00"
+    keys:
+      access:
+      secret:
+  dynamodb:
+    region:
+    endpoint:
+    keys:
+      access:
+      secret:

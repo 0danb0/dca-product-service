@@ -1,6 +1,6 @@
 package com.danb.dca.product_serivce.configurations;
 
-import com.homelab.webhook.properties.S3Properties;
+import com.danb.dca.product_serivce.properties.S3Properties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
