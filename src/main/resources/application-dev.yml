@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: "dca-product-service"
+
+dca:
+  application:
+    licensed:
+      zapier: "1111111-2222-3333-4444-5555555"
+
+aws:
+  accessKeyId: ""
+  secretAccessKey: ""
+  s3:
+    bucket: "invoices"
+    region: "aa-ddddd-00"
