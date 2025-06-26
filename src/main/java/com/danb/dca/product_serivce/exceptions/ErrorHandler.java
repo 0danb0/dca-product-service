@@ -2,6 +2,8 @@ package com.danb.dca.product_serivce.exceptions;
 import com.danb.dca.product_serivce.controllers.InvoicesController;
 import com.danb.dca.product_serivce.controllers.ProductController;
 import com.danb.dca.product_serivce.utils.Constants;
+import com.danb.dca.product_serivce.utils.DomainMsg;
+import com.danb.dca.product_serivce.utils.ErrorMsg;
 import com.danb.dca.product_serivce.utils.Tools;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;

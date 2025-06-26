@@ -15,13 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class InvoicesController {
-
+public class MainController {
     private final GenericBuilder genericBuilder;
 
-    @GetMapping("/invoice/health")
+    @GetMapping("/health")
     public ResponseEntity<Object> productHealthCheck() {
-        GenericHealthCheckResponse genericHealthCheckResponse = genericBuilder.genericHealthCheckResponse(DomainMsg.INVOICE_SERVICE_TECHNICAL.getName(),"Invoice");
-        return new ResponseEntity<>(genericHealthCheckResponse,HttpStatus.OK);
+        GenericHealthCheckResponse genericHealthCheckResponse = genericBuilder.genericHealthCheckResponse(DomainMsg.API_SERVICE_TECHNICAL.getName(),"Api");
+        return new ResponseEntity<>(genericHealthCheckResponse, HttpStatus.OK);
     }
 }

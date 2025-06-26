@@ -1,7 +1,6 @@
-package com.danb.dca.product_serivce.exceptions;
+package com.danb.dca.product_serivce.utils;
 
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ErrorMsg {

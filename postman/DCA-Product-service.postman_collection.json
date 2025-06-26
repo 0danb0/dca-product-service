@@ -1,0 +1,127 @@
+{
+	"info": {
+		"_postman_id": "a730442c-9220-4de9-b85c-0d51c76f078f",
+		"name": "DCA-Product-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23891502",
+		"_collection_link": "https://medusa-0894.postman.co/workspace/ProgettoMedusa~6ab5bc17-4728-45e6-86d0-4fe7f410c9d5/collection/23891502-a730442c-9220-4de9-b85c-0d51c76f078f?action=share&source=collection_link&creator=23891502"
+	},
+	"item": [
+		{
+			"name": "Check",
+			"item": [
+				{
+					"name": "Product Health",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-APP-KEY",
+								"value": "local-postman"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\r\n      \"email\": \"davide@gmail.com\",\r\n      \"password\": \"davide123\"\r\n  }\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/product/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"product",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice Health",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-APP-KEY",
+								"value": "local-postman"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\r\n      \"email\": \"davide@gmail.com\",\r\n      \"password\": \"davide123\"\r\n  }\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/invoice/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"invoice",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "API Health",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-APP-KEY",
+								"value": "local-postman"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\r\n      \"email\": \"davide@gmail.com\",\r\n      \"password\": \"davide123\"\r\n  }\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/product/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"product",
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
