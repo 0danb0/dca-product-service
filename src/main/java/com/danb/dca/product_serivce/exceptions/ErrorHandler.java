@@ -1,6 +1,8 @@
 package com.danb.dca.product_serivce.exceptions;
 import com.danb.dca.product_serivce.controllers.InvoicesController;
 import com.danb.dca.product_serivce.controllers.ProductController;
+import com.danb.dca.product_serivce.models.response.CommonErrorResponse;
+import com.danb.dca.product_serivce.models.response.Error;
 import com.danb.dca.product_serivce.utils.Constants;
 import com.danb.dca.product_serivce.utils.DomainMsg;
 import com.danb.dca.product_serivce.utils.ErrorMsg;
@@ -84,6 +86,13 @@ public class ErrorHandler implements RequestBodyAdvice {
     @ExceptionHandler(InvoiceException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public final CommonErrorResponse handleInvoiceExceptions(InvoiceException ex, HttpServletRequest request, String code, String message) {
+        log.error("Exception: ", ex);
+        return buildError(request, code, message, ex.getMessage(), DomainMsg.PRODUCT_SERVICE_TECHNICAL.getName());
+    }
+
+    @ExceptionHandler(MainException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public final CommonErrorResponse handleMainExceptions(InvoiceException ex, HttpServletRequest request, String code, String message) {
         log.error("Exception: ", ex);
         return buildError(request, code, message, ex.getMessage(), DomainMsg.PRODUCT_SERVICE_TECHNICAL.getName());
     }
@@ -176,7 +185,7 @@ public class ErrorHandler implements RequestBodyAdvice {
     }
 
     private CommonErrorResponse buildError(HttpServletRequest request, String code, String message, String detailedMessage, String domain) {
-        Error error = new Error();
+        com.danb.dca.product_serivce.models.response.Error error = new Error();
         error.setCode(code);
         error.setMessage(message);
         error.setDetailed(detailedMessage);

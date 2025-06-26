@@ -1,6 +1,5 @@
-package com.danb.dca.product_serivce.exceptions;
+package com.danb.dca.product_serivce.models.response;
 
-import com.danb.dca.product_serivce.models.response.RestResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
