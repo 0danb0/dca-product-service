@@ -106,7 +106,7 @@
 							"raw": "  {\r\n      \"email\": \"davide@gmail.com\",\r\n      \"password\": \"davide123\"\r\n  }\r\n"
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/product/health",
+							"raw": "http://localhost:8080/api/health",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -114,7 +114,6 @@
 							"port": "8080",
 							"path": [
 								"api",
-								"product",
 								"health"
 							]
 						}
@@ -133,7 +132,13 @@
 							"type": "noauth"
 						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "X-APP-KEY",
+								"value": "local-postman",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
@@ -150,15 +155,16 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:8080/alistarica/invoices",
+							"raw": "http://localhost:8080/api/invoice/elaborator",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"alistarica",
-								"invoices"
+								"api",
+								"invoice",
+								"elaborator"
 							]
 						}
 					},
