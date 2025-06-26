@@ -122,6 +122,49 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Invoice",
+			"item": [
+				{
+					"name": "test",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "application-license",
+									"value": "43776c6a-ca4d-4e77-9f33-2ac521c75534",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/E:/archivio/Websites/denis/fatture-test/Fattura-2129_2024-The-Pantheon-Hotel--MDM-SRL.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/alistarica/invoices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"alistarica",
+								"invoices"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
