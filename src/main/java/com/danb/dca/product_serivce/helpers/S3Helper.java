@@ -1,4 +1,4 @@
-package com.danb.dca.product_serivce.helper;
+package com.danb.dca.product_serivce.helpers;
 
 import com.danb.dca.product_serivce.properties.S3Properties;
 import lombok.RequiredArgsConstructor;
