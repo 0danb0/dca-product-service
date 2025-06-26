@@ -75,17 +75,30 @@ public class InvoiceService {
                 }
 
                 // Mittente
-                if (line.equalsIgnoreCase("Claudio Piovesan")) {
-                    issuerDto.setName(line);
-                    issuerDto.setAddress(lines[i + 1].trim());
-                    issuerDto.setVatNumber(extractAfter(lines[i + 2], "P.iva"));
-                    issuerDto.setFiscalCode(extractAfter(lines[i + 2], "C.F."));
+                if (line.matches("(?i).*P\\.iva.*C\\.F\\..*")) {
+                    issuerDto.setVatNumber(extractAfter(line, "P.iva"));
+                    issuerDto.setFiscalCode(extractAfter(line, "C.F."));
+
+                    // Linea precedente = indirizzo
+                    if (i > 0) issuerDto.setAddress(lines[i - 1].trim());
+
+                    // Due linee prima = nome mittente
+                    if (i > 1) issuerDto.setName(lines[i - 2].trim());
                 }
 
                 // Destinatario
-                if (line.contains("PLAYA 2025")) {
-                    recipientDto.setName(line);
-                    recipientDto.setAddress(lines[i + 1].trim());
+                if (line.equalsIgnoreCase("DESTINATARIO") && i + 1 < lines.length) {
+                    // Linee successive = nome, indirizzo, CAP, ecc.
+                    recipientDto.setName(lines[i + 1].trim());
+                    StringBuilder addressBuilder = new StringBuilder();
+
+                    for (int j = i + 2; j < Math.min(i + 5, lines.length); j++) {
+                        String l = lines[j].trim();
+                        if (l.isEmpty()) break;
+                        addressBuilder.append(l).append(", ");
+                    }
+
+                    recipientDto.setAddress(addressBuilder.toString().replaceAll(",\\s*$", ""));
                 }
 
                 // Prodotti
