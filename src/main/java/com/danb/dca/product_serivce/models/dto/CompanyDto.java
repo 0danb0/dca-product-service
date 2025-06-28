@@ -4,10 +4,10 @@ import lombok.Data;
 
 @Data
 public class CompanyDto {
-    String name;
-    String address;
-    String vatNumber;
-    String fiscalCode;
-    String email;
-    String phone;
+    private String name;
+    private String address;
+    private String vatNumber;
+    private String fiscalCode;
+    private String email;
+    private String phone;
 }

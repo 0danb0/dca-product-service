@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
+import static com.danb.dca.product_serivce.utils.ConstantStrings.APPENDIX_PK;
+import static com.danb.dca.product_serivce.utils.ConstantStrings.ROOT_PK;
+
 @Component
 public class Tools {
 
@@ -35,4 +38,7 @@ public class Tools {
         return password.toString();
     }
 
+    public String createPk(String applicationId) {
+        return String.join("#", ROOT_PK, applicationId, APPENDIX_PK);
+    }
 }

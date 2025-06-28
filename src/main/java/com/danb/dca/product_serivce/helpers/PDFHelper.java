@@ -2,7 +2,7 @@ package com.danb.dca.product_serivce.helpers;
 
 import com.danb.dca.product_serivce.models.dto.CompanyDto;
 import com.danb.dca.product_serivce.models.dto.InvoiceDto;
-import com.danb.dca.product_serivce.models.dto.InvoiceItemDto;
+import com.danb.dca.product_serivce.models.dto.ProductDto;
 import com.danb.dca.product_serivce.models.dto.PaymentInfoDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,7 +62,7 @@ public class PDFHelper {
 
             CompanyDto issuerDto = new CompanyDto();
             CompanyDto recipientDto = new CompanyDto();
-            List<InvoiceItemDto> itemsDtoList = new ArrayList<>();
+            List<ProductDto> itemsDtoList = new ArrayList<>();
             PaymentInfoDto paymentDto = new PaymentInfoDto();
 
             for (int i = 0; i < lines.length; i++) {
@@ -128,7 +128,7 @@ public class PDFHelper {
                         int qty = Integer.parseInt(m.group(1));
                         double unitPrice = parseDouble(m.group(2));
                         double total = parseDouble(m.group(3));
-                        itemsDtoList.add(new InvoiceItemDto(code, desc, qty, unitPrice, 0, total));
+                        itemsDtoList.add(new ProductDto(code, desc, qty, unitPrice, 0, total));
                     }
                 }
 
@@ -187,7 +187,7 @@ public class PDFHelper {
             invoiceDto.setIssuer(issuerDto);
             invoiceDto.setRecipient(recipientDto);
             invoiceDto.setItems(itemsDtoList);
-            invoiceDto.setPayment(paymentDto);
+            invoiceDto.setPaymentInfo(paymentDto);
         }
 
         return invoiceDto;

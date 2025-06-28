@@ -1,11 +1,14 @@
 package com.danb.dca.product_serivce.services;
 
+import com.danb.dca.product_serivce.builders.InvoiceBuilder;
 import com.danb.dca.product_serivce.enums.DomainMsg;
 import com.danb.dca.product_serivce.enums.ErrorMsg;
 import com.danb.dca.product_serivce.exceptions.InvoiceException;
 import com.danb.dca.product_serivce.helpers.PDFHelper;
 import com.danb.dca.product_serivce.models.dto.InvoiceDto;
+import com.danb.dca.product_serivce.models.po.InvoicePO;
 import com.danb.dca.product_serivce.properties.ApplicationProperties;
+import com.danb.dca.product_serivce.repository.InvoiceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,9 +25,11 @@ import static com.danb.dca.product_serivce.utils.ConstantStrings.S3_SERVICE_STAT
 @RequiredArgsConstructor
 public class InvoiceService {
 
-    private final ApplicationProperties applicationProperties;
-    private final S3Service s3Service;
     private final PDFHelper pdfHelper;
+    private final S3Service s3Service;
+    private final InvoiceBuilder invoiceBuilder;
+    private final InvoiceRepository invoiceRepository;
+    private final ApplicationProperties applicationProperties;
 
     public void invoceElaborator(MultipartFile file) throws IOException, InvoiceException {
         log.info("-- InvoceElaborator START");
@@ -45,10 +50,15 @@ public class InvoiceService {
 //      Step 3 - Lettura file
         InvoiceDto invoiceDto = pdfHelper.invoiceStripper(file);
 
+//      Step 4 - Persistenza dati estratti
         if(applicationProperties.isDatabasePersistence()){
-
+            log.info("--- InvoceElaborator: Saving invoice - START");
+            InvoicePO invoicePO = invoiceBuilder.buildInvoicePo(invoiceDto);
+            invoiceRepository.insert(invoicePO);
+            log.info("--- InvoceElaborator: Saving invoice - DONE");
         }
 
+        log.info("-- InvoceElaborator DONE");
     }
 
     // Helpers

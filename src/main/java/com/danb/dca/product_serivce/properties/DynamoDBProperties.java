@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 @Getter
 @Setter
 @Component
@@ -13,6 +15,7 @@ public class DynamoDBProperties {
     private String region;
     private String endpoint;
     private Keys keys;
+    private Map<String, String> tables;
 
     @Getter
     @Setter

@@ -17,6 +17,11 @@ aws:
   dynamodb:
     region: "us-east-1"
     endpoint: "http://localhost:4566"
+    tables:
+      invoice: "invoice"
+      company: "company"
+      customer: "customer"
+      produce: "produce"
     keys:
       access: "test"
       secret: "test"

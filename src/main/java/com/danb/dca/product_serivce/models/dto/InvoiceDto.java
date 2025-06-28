@@ -6,12 +6,12 @@ import java.util.List;
 
 @Data
 public class InvoiceDto {
-    String invoiceNumber;
-    String invoiceDate;
-    CompanyDto issuer;
-    CompanyDto recipient;
-    List<InvoiceItemDto> items;
-    PaymentInfoDto payment;
-    double totalAmount;
-    String notes;
+    private String invoiceNumber;
+    private String invoiceDate;
+    private CompanyDto issuer;
+    private CompanyDto recipient;
+    private List<ProductDto> items;
+    private PaymentInfoDto paymentInfo;
+    private double totalAmount;
+    private String notes;
 }

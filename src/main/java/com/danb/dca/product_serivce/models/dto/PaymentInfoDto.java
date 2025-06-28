@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class PaymentInfoDto {
-    String method;
-    String iban;
-    String accountHolder;
-    String dueDate;
-    double dueAmount;
+    private String method;
+    private String iban;
+    private String accountHolder;
+    private String dueDate;
+    private double dueAmount;
 }
