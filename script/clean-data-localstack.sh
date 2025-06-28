@@ -5,8 +5,8 @@ ENDPOINT=http://localhost:4566
 REGION=us-east-1
 
 # Nome delle risorse
-DYNAMO_TABLE=InvoiceTable
-S3_BUCKET=my-invoice-bucket
+DYNAMO_TABLE=invoices
+S3_BUCKET=dca-invoice-service
 
 echo "🗑️ Cancellazione di tutti gli elementi nella tabella DynamoDB: $DYNAMO_TABLE"
 

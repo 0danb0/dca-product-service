@@ -15,6 +15,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -58,17 +59,15 @@ public class S3Helper {
         }
     }
 
-    public void uploadFile(String objectKey, String filePath) throws S3CustomException {
+    public void uploadFile(String objectKey, InputStream inputStream, long contentLength) throws S3CustomException {
         log.info("-- Upload File S3 START");
         try {
-            Path path = Paths.get(filePath);
-
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                     .bucket(s3Properties.getBucket())
                     .key(objectKey)
                     .build();
 
-            PutObjectResponse response = s3Client.putObject(putObjectRequest, RequestBody.fromFile(path));
+            PutObjectResponse response = s3Client.putObject(putObjectRequest, RequestBody.fromInputStream(inputStream, contentLength));
 
             log.info("-- File caricato con successo. ETag: " + response.eTag());
         } catch (S3Exception e) {

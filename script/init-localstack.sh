@@ -5,8 +5,8 @@ ENDPOINT=http://localhost:4566
 REGION=us-east-1
 
 # Nome delle risorse
-DYNAMO_TABLE=InvoiceTable
-S3_BUCKET=my-invoice-bucket
+DYNAMO_TABLE=invoices
+S3_BUCKET=dca-invoice-service
 
 echo "✅ Creazione tabella DynamoDB: $DYNAMO_TABLE"
 
@@ -23,11 +23,16 @@ aws --endpoint-url=$ENDPOINT dynamodb create-table \
 
 echo "✅ Creazione bucket S3: $S3_BUCKET"
 
-aws --endpoint-url=$ENDPOINT s3api create-bucket \
-  --bucket $S3_BUCKET \
-  --region $REGION \
-  --create-bucket-configuration LocationConstraint=$REGION
-
+if [ "$REGION" = "us-east-1" ]; then
+  aws --endpoint-url=$ENDPOINT s3api create-bucket \
+    --bucket $S3_BUCKET \
+    --region $REGION
+else
+  aws --endpoint-url=$ENDPOINT s3api create-bucket \
+    --bucket $S3_BUCKET \
+    --region $REGION \
+    --create-bucket-configuration LocationConstraint=$REGION
+fi
 echo "✅ Operazione completata"
 
 read -n 1 -s -r -p "Premi un tasto per chiudere..."

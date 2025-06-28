@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -39,9 +41,10 @@ public class S3Service {
 
         String result;
         try {
-            s3Helper.uploadFile(file.getOriginalFilename(), folderName);
+            String objectKey = folderName + "/" + file.getOriginalFilename();
+            s3Helper.uploadFile(objectKey, file.getInputStream(), file.getSize());
             result = S3ServiceStatus.UPLOADED.getMessage();
-        }catch (S3CustomException e){
+        }catch (S3CustomException | IOException e){
             log.info("-- Upload file: Error -> {}", e.toString());
             return S3ServiceStatus.ERROR.getMessage();
         }
