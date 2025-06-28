@@ -64,67 +64,79 @@ public class InvoiceService {
             for (int i = 0; i < lines.length; i++) {
                 String line = lines[i].trim();
 
-                // Numero e data fattura
+                // ==============================
+                // NUMERO E DATA FATTURA
+                // ==============================
                 if (line.startsWith("FATTURA nr.")) {
-                    Pattern p = Pattern.compile("FATTURA nr\\. (.+?) del (.+)");
-                    Matcher m = p.matcher(line);
+                    Matcher m = Pattern.compile("FATTURA nr\\. (.+?) del (.+)").matcher(line);
                     if (m.find()) {
                         invoiceDto.setInvoiceNumber(m.group(1).trim());
                         invoiceDto.setInvoiceDate(m.group(2).trim());
                     }
                 }
 
-                // Mittente
+                // ==============================
+                // MITTENTE
+                // ==============================
                 if (line.matches("(?i).*P\\.iva.*C\\.F\\..*")) {
-                    issuerDto.setVatNumber(extractAfter(line, "P.iva"));
-                    issuerDto.setFiscalCode(extractAfter(line, "C.F."));
-
-                    // Linea precedente = indirizzo
+                    issuerDto.setVatNumber(extractAfter(line, "P.iva "));
+                    issuerDto.setFiscalCode(extractAfter(line, "C.F. "));
                     if (i > 0) issuerDto.setAddress(lines[i - 1].trim());
-
-                    // Due linee prima = nome mittente
                     if (i > 1) issuerDto.setName(lines[i - 2].trim());
                 }
 
-                // Destinatario
+                // ==============================
+                // DESTINATARIO
+                // ==============================
                 if (line.equalsIgnoreCase("DESTINATARIO") && i + 1 < lines.length) {
-                    // Linee successive = nome, indirizzo, CAP, ecc.
                     recipientDto.setName(lines[i + 1].trim());
                     StringBuilder addressBuilder = new StringBuilder();
-
                     for (int j = i + 2; j < Math.min(i + 5, lines.length); j++) {
                         String l = lines[j].trim();
                         if (l.isEmpty()) break;
                         addressBuilder.append(l).append(", ");
                     }
-
                     recipientDto.setAddress(addressBuilder.toString().replaceAll(",\\s*$", ""));
                 }
 
-                // Prodotti
-                if (line.matches("^\\d{3} .*")) {
-                    // Inizia una riga di prodotto
+                if (line.toUpperCase().startsWith("P.IVA ")) {
+                    recipientDto.setVatNumber(extractAfter(line, "P.IVA "));
+                }
+                if (line.toUpperCase().startsWith("CF ")) {
+                    recipientDto.setFiscalCode(extractAfter(line, "CF "));
+                }
+                if (line.toUpperCase().startsWith("TEL. ")) {
+                    recipientDto.setPhone(extractAfter(line, "TEL. "));
+                }
+                if (line.toUpperCase().startsWith("EMAIL ")) {
+                    recipientDto.setEmail(extractAfter(line, "EMAIL "));
+                }
+
+                // ==============================
+                // PRODOTTI
+                // ==============================
+                if (line.matches("^\\d{3} .*") && i + 1 < lines.length) {
                     String code = line.split(" ")[0];
                     String desc = line.substring(code.length()).trim();
                     String nextLine = lines[i + 1].trim();
-                    Pattern p2 = Pattern.compile("(\\d+) pz.*€ ([\\d,\\.]+).*€ ([\\d,\\.]+)");
-                    Matcher m2 = p2.matcher(nextLine);
-                    if (m2.find()) {
-                        int qty = Integer.parseInt(m2.group(1));
-                        double unitPrice = parseDouble(m2.group(2));
-                        double total = parseDouble(m2.group(3));
+                    Matcher m = Pattern.compile("(\\d+) pz.*€ ([\\d,\\.]+).*€ ([\\d,\\.]+)").matcher(nextLine);
+                    if (m.find()) {
+                        int qty = Integer.parseInt(m.group(1));
+                        double unitPrice = parseDouble(m.group(2));
+                        double total = parseDouble(m.group(3));
                         itemsDtoList.add(new InvoiceItemDto(code, desc, qty, unitPrice, 0, total));
                     }
                 }
 
-                // IBAN e metodo di pagamento
-                if (line.contains("IBAN:")) {
+                // ==============================
+                // PAGAMENTO
+                // ==============================
+                if (line.contains("IBAN: ") && i + 1 < lines.length) {
                     paymentDto.setMethod("Bonifico Bancario");
-                    paymentDto.setIban(extractAfter(line, "IBAN:"));
+                    paymentDto.setIban(extractAfter(line, "IBAN: "));
                     paymentDto.setAccountHolder(lines[i + 1].trim());
                 }
 
-                // Scadenza
                 if (line.matches("\\d{2}/\\d{2}/\\d{4}:\\s*€?\\s*[\\d.,]+")) {
                     String[] parts = line.split(":");
                     if (parts.length == 2) {
@@ -133,17 +145,30 @@ public class InvoiceService {
                     }
                 }
 
-                // Totale
+                // ==============================
+                // TOTALE IMPONIBILE
+                // ==============================
                 if (line.startsWith("Imponibile €")) {
                     invoiceDto.setTotalAmount(parseDouble(line.replace("Imponibile €", "").trim()));
                 }
 
-//                    // Note
-//                    if (line.startsWith("Documento privo")) {
-//                        invoice.notes = line;
-//                    }
+                // ==============================
+                // CONTATTI MITTENTE (EMAIL/TELEFONO)
+                // ==============================
+                Matcher emailMatcher = Pattern.compile("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}").matcher(line);
+                if (issuerDto.getEmail() == null && emailMatcher.find()) {
+                    issuerDto.setEmail(emailMatcher.group());
+                }
 
+                Matcher phoneMatcher = Pattern.compile("\\b(\\+39)?3\\d{8,9}\\b").matcher(line);
+                if (issuerDto.getPhone() == null && phoneMatcher.find()) {
+                    issuerDto.setPhone(phoneMatcher.group());
+                }
             }
+
+            // ==============================
+            // ASSEMBLA L'OGGETTO FINALE
+            // ==============================
             invoiceDto.setIssuer(issuerDto);
             invoiceDto.setRecipient(recipientDto);
             invoiceDto.setItems(itemsDtoList);
