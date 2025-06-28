@@ -3,9 +3,9 @@ import com.danb.dca.product_serivce.controllers.InvoicesController;
 import com.danb.dca.product_serivce.controllers.ProductController;
 import com.danb.dca.product_serivce.models.response.CommonErrorResponse;
 import com.danb.dca.product_serivce.models.response.Error;
-import com.danb.dca.product_serivce.utils.Constants;
-import com.danb.dca.product_serivce.utils.DomainMsg;
-import com.danb.dca.product_serivce.utils.ErrorMsg;
+import com.danb.dca.product_serivce.enums.ConstantEnum;
+import com.danb.dca.product_serivce.enums.DomainMsg;
+import com.danb.dca.product_serivce.enums.ErrorMsg;
 import com.danb.dca.product_serivce.utils.Tools;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
@@ -73,7 +73,7 @@ public class ErrorHandler implements RequestBodyAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public final CommonErrorResponse handleAllExceptions(Exception ex, HttpServletRequest request) {
         log.error("Exception: ", ex);
-        return buildError(request, ErrorMsg.DCAPRDSRV99.getCode(), ErrorMsg.DCAPRDSRV99.getMessage(), ex.getMessage(), DomainMsg.MICROSERVICE_FUNCTIONAL.getName());
+        return buildError(request, ErrorMsg.DCA_PRD_SRV_99.getCode(), ErrorMsg.DCA_PRD_SRV_99.getMessage(), ex.getMessage(), DomainMsg.MICROSERVICE_FUNCTIONAL.getName());
     }
 
     @ExceptionHandler(ProductException.class)
@@ -89,6 +89,12 @@ public class ErrorHandler implements RequestBodyAdvice {
         log.error("Exception: ", ex);
         return buildError(request, code, message, ex.getMessage(), DomainMsg.PRODUCT_SERVICE_TECHNICAL.getName());
     }
+    @ExceptionHandler(S3CustomException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public final CommonErrorResponse handleS3CustomExceptions(S3CustomException ex, HttpServletRequest request, String code, String message) {
+        log.error("Exception: ", ex);
+        return buildError(request, code, message, ex.getMessage(), DomainMsg.PRODUCT_SERVICE_TECHNICAL.getName());
+    }
 
     @ExceptionHandler(MainException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -101,7 +107,7 @@ public class ErrorHandler implements RequestBodyAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public final CommonErrorResponse handleRuntimeException(RuntimeException ex, HttpServletRequest request) {
         log.error("Exception: ", ex);
-        return buildError(request, ErrorMsg.DCAPRDSRV99.getCode(), ErrorMsg.DCAPRDSRV99.getMessage(), ex.getMessage(), DomainMsg.MICROSERVICE_FUNCTIONAL.getName());
+        return buildError(request, ErrorMsg.DCA_PRD_SRV_99.getCode(), ErrorMsg.DCA_PRD_SRV_99.getMessage(), ex.getMessage(), DomainMsg.MICROSERVICE_FUNCTIONAL.getName());
     }
 
     @ExceptionHandler({ MethodArgumentNotValidException.class, MissingServletRequestParameterException.class })
@@ -121,7 +127,7 @@ public class ErrorHandler implements RequestBodyAdvice {
         } else if (ex instanceof MissingServletRequestParameterException missingServletRequestParameterException) {
             fieldsMap.put(missingServletRequestParameterException.getParameterName(), missingServletRequestParameterException.getMessage());
         } else {
-            return buildError(request, ErrorMsg.DCAPRDSRV01.getCode(), ErrorMsg.DCAPRDSRV01.getMessage(), ex.getMessage(), DomainMsg.MICROSERVICE_FUNCTIONAL.getName());
+            return buildError(request, ErrorMsg.DCA_PRD_SRV_01.getCode(), ErrorMsg.DCA_PRD_SRV_01.getMessage(), ex.getMessage(), DomainMsg.MICROSERVICE_FUNCTIONAL.getName());
         }
 
         return buildInvalidFieldsError(request, fieldsMap);
@@ -161,7 +167,7 @@ public class ErrorHandler implements RequestBodyAdvice {
     public final CommonErrorResponse handleInvalidJson(HttpMessageNotReadableException ex, HttpServletRequest request) {
         log.error("HttpMessageNotReadableException: ", ex);
         return buildError(request,
-                ErrorMsg.DCAPRDSRV01.getCode(),
+                ErrorMsg.DCA_PRD_SRV_01.getCode(),
                 "Malformed JSON request",
                 ex.getMessage(),
                 DomainMsg.MICROSERVICE_FUNCTIONAL.getName());
@@ -172,7 +178,7 @@ public class ErrorHandler implements RequestBodyAdvice {
     public final CommonErrorResponse handleMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpServletRequest request) {
         log.error("HttpRequestMethodNotSupportedException: ", ex);
         return buildError(request,
-                ErrorMsg.DCAPRDSRV01.getCode(),
+                ErrorMsg.DCA_PRD_SRV_01.getCode(),
                 "HTTP method not allowed",
                 ex.getMessage(),
                 DomainMsg.MICROSERVICE_FUNCTIONAL.getName());
@@ -181,7 +187,7 @@ public class ErrorHandler implements RequestBodyAdvice {
     private CommonErrorResponse buildInvalidFieldsError(HttpServletRequest request, Map<String, String> fieldsMap) {
         String message = "Invalid Fields: " + StringUtils.join(fieldsMap.keySet(), ',');
 
-        return buildError(request, ErrorMsg.DCAPRDSRV01.getCode(), message, StringUtils.join(fieldsMap.values(), ','), DomainMsg.MICROSERVICE_FUNCTIONAL.getName());
+        return buildError(request, ErrorMsg.DCA_PRD_SRV_01.getCode(), message, StringUtils.join(fieldsMap.values(), ','), DomainMsg.MICROSERVICE_FUNCTIONAL.getName());
     }
 
     private CommonErrorResponse buildError(HttpServletRequest request, String code, String message, String detailedMessage, String domain) {
@@ -203,7 +209,7 @@ public class ErrorHandler implements RequestBodyAdvice {
         CommonErrorResponse commonErrorResponse = new CommonErrorResponse();
         commonErrorResponse.setError(error);
         commonErrorResponse.setTimestamp(tools.getInstant());
-        commonErrorResponse.setDomain(Constants.APPLICATION_NAME.getValue());
+        commonErrorResponse.setDomain(ConstantEnum.APPLICATION_NAME.getValue());
         return commonErrorResponse;
     }
 

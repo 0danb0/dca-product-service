@@ -1,6 +1,8 @@
 spring:
   application:
     name: "dca-product-service"
+    upload-enabled: false
+    database-persistence: false
     licensed:
       zapier: "1111111-2222-3333-4444-5555555"
 

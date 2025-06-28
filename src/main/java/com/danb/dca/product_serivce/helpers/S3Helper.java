@@ -1,5 +1,9 @@
 package com.danb.dca.product_serivce.helpers;
 
+import com.danb.dca.product_serivce.enums.ConstantEnum;
+import com.danb.dca.product_serivce.enums.DomainMsg;
+import com.danb.dca.product_serivce.enums.ErrorMsg;
+import com.danb.dca.product_serivce.exceptions.S3CustomException;
 import com.danb.dca.product_serivce.properties.S3Properties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +36,7 @@ public class S3Helper {
         return !s3Client.listObjectsV2(request).contents().isEmpty();
     }
 
-    public void createFolder(String folderName) {
+    public void createFolder(String folderName) throws S3CustomException {
         log.info("-- Create S3 Folder START");
         try {
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
@@ -46,10 +50,15 @@ public class S3Helper {
             log.info("-- Create S3 Folder END");
         } catch (S3Exception e) {
             log.error("--- Create S3 Folder ERROR: {}", e.awsErrorDetails().errorMessage());
+            throw new S3CustomException(
+                    e.awsErrorDetails().errorCode(),
+                    ConstantEnum.S3_GENERIC_ERROR_MESSAGE.getValue(),
+                    DomainMsg.S3_SERVICE_TECHNICAL.getName(),
+                    e.awsErrorDetails().errorMessage());
         }
     }
 
-    public void uploadFile(String objectKey, String filePath) {
+    public void uploadFile(String objectKey, String filePath) throws S3CustomException {
         log.info("-- Upload File S3 START");
         try {
             Path path = Paths.get(filePath);
@@ -64,8 +73,20 @@ public class S3Helper {
             log.info("-- File caricato con successo. ETag: " + response.eTag());
         } catch (S3Exception e) {
             log.error("-- Errore durante il caricamento del file: {}", e.awsErrorDetails().errorMessage());
+
+            throw new S3CustomException(
+                    e.awsErrorDetails().errorCode(),
+                    ConstantEnum.S3_GENERIC_ERROR_MESSAGE.getValue(),
+                    DomainMsg.S3_SERVICE_TECHNICAL.getName(),
+                    e.awsErrorDetails().errorMessage());
         } catch (Exception e) {
             log.error("-- Errore generale: {}", e.getMessage());
+
+            throw new S3CustomException(
+                    ErrorMsg.DCA_PRD_SRV_99.getCode(),
+                    ConstantEnum.S3_GENERIC_ERROR_MESSAGE.getValue(),
+                    DomainMsg.S3_SERVICE_TECHNICAL.getName(),
+                    e.getMessage());
         }
     }
 }

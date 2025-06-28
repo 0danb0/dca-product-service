@@ -2,7 +2,7 @@ package com.danb.dca.product_serivce.controllers;
 
 import com.danb.dca.product_serivce.builders.GenericBuilder;
 import com.danb.dca.product_serivce.models.response.GenericHealthCheckResponse;
-import com.danb.dca.product_serivce.utils.DomainMsg;
+import com.danb.dca.product_serivce.enums.DomainMsg;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

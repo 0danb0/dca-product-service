@@ -5,8 +5,8 @@ import com.danb.dca.product_serivce.exceptions.InvoiceException;
 import com.danb.dca.product_serivce.models.response.GenericHealthCheckResponse;
 import com.danb.dca.product_serivce.properties.ApplicationProperties;
 import com.danb.dca.product_serivce.services.InvoiceService;
-import com.danb.dca.product_serivce.utils.DomainMsg;
-import com.danb.dca.product_serivce.utils.ErrorMsg;
+import com.danb.dca.product_serivce.enums.DomainMsg;
+import com.danb.dca.product_serivce.enums.ErrorMsg;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -50,8 +50,8 @@ public class InvoicesController {
         } catch (Exception e) {
             log.error("-- Error processing the file: {}", e.getMessage());
             throw new InvoiceException(
-                    ErrorMsg.DCAPRDSRV99.getCode(),
-                    ErrorMsg.DCAPRDSRV99.getMessage(),
+                    ErrorMsg.DCA_PRD_SRV_99.getCode(),
+                    ErrorMsg.DCA_PRD_SRV_99.getMessage(),
                     DomainMsg.MICROSERVICE_FUNCTIONAL.getName(),
                     "Error during file processing"
             );
@@ -64,10 +64,10 @@ public class InvoicesController {
         if (!applicationProperties.getLicensed().containsValue(applicationLicense)) {
             log.error("- Invalid application license: {}", applicationLicense);
             throw new InvoiceException(
-                    ErrorMsg.DCAPRDSRV02.getCode(),
-                    ErrorMsg.DCAPRDSRV02.getMessage(),
+                    ErrorMsg.DCA_PRD_SRV_02.getCode(),
+                    ErrorMsg.DCA_PRD_SRV_02.getMessage(),
                     DomainMsg.MICROSERVICE_FUNCTIONAL.getName(),
-                    ErrorMsg.DCAPRDSRV02.getDetail()
+                    ErrorMsg.DCA_PRD_SRV_02.getDetail()
             );
         }
     }

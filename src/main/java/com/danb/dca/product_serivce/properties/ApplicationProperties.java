@@ -13,5 +13,7 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "spring.application")
 public class ApplicationProperties {
     private String name;
+    private boolean uploadEnabled;
+    private boolean databasePersistence;
     private Map<String, String> licensed;
 }

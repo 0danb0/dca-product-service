@@ -1,7 +1,7 @@
 package com.danb.dca.product_serivce.configurations;
 
 import com.danb.dca.product_serivce.properties.SecurityProperties;
-import com.danb.dca.product_serivce.utils.Constants;
+import com.danb.dca.product_serivce.enums.ConstantEnum;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +27,7 @@ public class HeadersFilterConfig extends OncePerRequestFilter {
             return;
         }
 
-        String appKey = request.getHeader(Constants.HEADER_APP_KEY_NAME.getValue());
+        String appKey = request.getHeader(ConstantEnum.HEADER_APP_KEY_NAME.getValue());
 
         if (appKey == null || !securityProperties.getLicensedApps().contains(appKey)) {
             log.error("Internal filter - Header retrieved is invalid -> {}", appKey);
