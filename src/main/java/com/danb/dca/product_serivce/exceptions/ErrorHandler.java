@@ -1,6 +1,5 @@
 package com.danb.dca.product_serivce.exceptions;
 import com.danb.dca.product_serivce.controllers.InvoicesController;
-import com.danb.dca.product_serivce.controllers.ProductController;
 import com.danb.dca.product_serivce.models.response.CommonErrorResponse;
 import com.danb.dca.product_serivce.models.response.Error;
 import com.danb.dca.product_serivce.enums.ConstantEnum;
@@ -41,7 +40,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Setter
-@RestControllerAdvice(assignableTypes = {InvoicesController.class, ProductController.class})
+@RestControllerAdvice(assignableTypes = {InvoicesController.class})
 public class ErrorHandler implements RequestBodyAdvice {
 
     private static final ThreadLocal<ErrorHandler> requestInfoThreadLocal = new ThreadLocal<>();
@@ -74,13 +73,6 @@ public class ErrorHandler implements RequestBodyAdvice {
     public final CommonErrorResponse handleAllExceptions(Exception ex, HttpServletRequest request) {
         log.error("Exception: ", ex);
         return buildError(request, ErrorMsg.DCA_PRD_SRV_99.getCode(), ErrorMsg.DCA_PRD_SRV_99.getMessage(), ex.getMessage(), DomainMsg.MICROSERVICE_FUNCTIONAL.getName());
-    }
-
-    @ExceptionHandler(ProductException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public final CommonErrorResponse handleProductExceptions(ProductException ex, HttpServletRequest request, String code, String message) {
-        log.error("Exception: ", ex);
-        return buildError(request, code, message, ex.getMessage(), DomainMsg.PRODUCT_SERVICE_TECHNICAL.getName());
     }
 
     @ExceptionHandler(InvoiceException.class)
