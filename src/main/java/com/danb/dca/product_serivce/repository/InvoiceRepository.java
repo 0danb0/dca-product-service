@@ -21,15 +21,13 @@ public class InvoiceRepository {
 
     @PostConstruct
     public void init() {
-        String tableName = dynamoDBProperties.getTables().get("invoice");
-
         DynamoDBMapperConfig mapperConfig = new DynamoDBMapperConfig.Builder()
                 .withTableNameOverride(
-                        DynamoDBMapperConfig.TableNameOverride.withTableNameReplacement(tableName)
+                        DynamoDBMapperConfig.TableNameOverride.withTableNameReplacement(dynamoDBProperties.getTable())
                 ).build();
 
         this.dynamoDBMapper = new DynamoDBMapper(client, mapperConfig);
-        log.info("DynamoDBMapper initialized for table: {}", tableName);
+        log.info("DynamoDBMapper initialized for table: {}", dynamoDBProperties.getTable());
     }
 
     public void insert(InvoicePO invoicePO) {

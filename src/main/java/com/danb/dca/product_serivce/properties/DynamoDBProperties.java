@@ -15,7 +15,7 @@ public class DynamoDBProperties {
     private String region;
     private String endpoint;
     private Keys keys;
-    private Map<String, String> tables;
+    private String table;
 
     @Getter
     @Setter
