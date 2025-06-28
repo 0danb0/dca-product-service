@@ -17,11 +17,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
-                .cors(cors -> {}) // attiva CORS tramite il bean CorsConfigurationSource
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
-                );
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> {}) // attiva CORS tramite il bean CorsConfigurationSource
+            .authorizeHttpRequests(auth -> auth
+                    .anyRequest().permitAll()
+            );
 
         return http.build();
     }

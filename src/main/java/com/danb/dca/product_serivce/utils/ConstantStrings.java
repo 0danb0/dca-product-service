@@ -1,8 +1,15 @@
 package com.danb.dca.product_serivce.utils;
 
 public interface ConstantStrings {
+    // ==============================
+    // Generic constants
+    // ==============================
     String APPLICATION_NAME_STRING = "dca-product-service";
     String HEADER_APP_KEY_NAME_STRING = "X-APP-KEY";
+    String GENERIC_FILE_PROCESSING_ERROR_STRING = "Error during file processing";
+    // ==============================
+    // S3 Code and status message
+    // ==============================
     String S3_GENERIC_ERROR_MESSAGE_STRING = "S3 upload file error";
     String S3_SERVICE_STATUS_CREATED_MESSAGE_STRING = "CREATED";
     String S3_SERVICE_STATUS_SUCCESS_CODE_STRING = "0";
@@ -12,6 +19,9 @@ public interface ConstantStrings {
     String S3_SERVICE_STATUS_ERROR_CODE_STRING = "-1";
     String S3_SERVICE_STATUS_WAIT_MESSAGE_STRING = "WAIT";
     String S3_SERVICE_STATUS_WAIT_CODE_STRING = "";
+    // ==============================
+    // Database key
+    // ==============================
     String PK_KEY = "pk";
     String SK_KEY = "sk";
     String CREATION_DATE_KEY = "creation_date";
