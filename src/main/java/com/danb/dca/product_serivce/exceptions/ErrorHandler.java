@@ -77,15 +77,9 @@ public class ErrorHandler implements RequestBodyAdvice {
 
     @ExceptionHandler(InvoiceException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public final CommonErrorResponse handleInvoiceExceptions(InvoiceException ex, HttpServletRequest request, String code, String message) {
+    public final CommonErrorResponse handleInvoiceExceptions(InvoiceException ex, HttpServletRequest request) {
         log.error("Exception: ", ex);
-        return buildError(request, code, message, ex.getMessage(), DomainMsg.PRODUCT_SERVICE_TECHNICAL.getName());
-    }
-    @ExceptionHandler(S3CustomException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public final CommonErrorResponse handleS3CustomExceptions(S3CustomException ex, HttpServletRequest request, String code, String message) {
-        log.error("Exception: ", ex);
-        return buildError(request, code, message, ex.getMessage(), DomainMsg.PRODUCT_SERVICE_TECHNICAL.getName());
+        return buildError(request, ex.getCode(), ex.getMessage(), ex.getMessage(), DomainMsg.PRODUCT_SERVICE_TECHNICAL.getName());
     }
 
     @ExceptionHandler(MainException.class)
