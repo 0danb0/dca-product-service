@@ -18,7 +18,7 @@ import static com.danb.dca.product_serivce.utils.ConstantStrings.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@DynamoDBTable(tableName = "${aws.dynamodb.tables.invoice}")
+@DynamoDBTable(tableName = "${aws.dynamodb.table}")
 public class InvoicePO {
     @DynamoDBHashKey(attributeName = PK_KEY)
     private String pk;
