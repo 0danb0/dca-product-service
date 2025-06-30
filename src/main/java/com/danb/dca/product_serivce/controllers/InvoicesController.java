@@ -33,13 +33,16 @@ public class InvoicesController {
     }
 
     @PostMapping(value = "/invoice/elaborator")
-    public ResponseEntity<Object> invoiceElaborator(@RequestParam("file") MultipartFile file, @RequestParam("application-license") String applicationLicense) throws InvoiceException {
+    public ResponseEntity<Object> invoiceElaborator(@RequestParam("file") MultipartFile file,
+                                                    @RequestParam("application-license") String applicationLicense,
+                                                    @RequestParam("email-from") String emailFrom
+                                                    ) throws InvoiceException {
         log.info("- InvoceElaborator - START");
 
         checkApplicationLicense(applicationLicense);
 
         try {
-            invoiceService.invoceElaborator(file);
+            invoiceService.invoceElaborator(file,emailFrom);
             log.info("- File uploaded and processed successfully");
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {

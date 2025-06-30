@@ -46,4 +46,6 @@ public class InvoicePO {
     private double totalAmount;
     @DynamoDBAttribute(attributeName = NOTES_KEY)
     private String notes;
+    @DynamoDBAttribute(attributeName = EMAIL_FROM_KEY)
+    private String emailFrom;
 }

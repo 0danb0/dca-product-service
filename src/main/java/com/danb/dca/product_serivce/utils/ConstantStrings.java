@@ -45,6 +45,7 @@ public interface ConstantStrings {
     String PAYMENT_INFO_KEY = "payment_info";
     String TOTAL_AMOUNT_KEY = "total_amount";
     String NOTES_KEY = "notes";
+    String EMAIL_FROM_KEY = "email_from";
     String ITEMS_KEY = "items";
     String CODE_KEY = "code";
     String DESCRIPTION_KEY = "description";

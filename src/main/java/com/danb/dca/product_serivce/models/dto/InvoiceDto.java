@@ -14,4 +14,5 @@ public class InvoiceDto {
     private PaymentInfoDto paymentInfo;
     private double totalAmount;
     private String notes;
+    private String emailFrom;
 }
