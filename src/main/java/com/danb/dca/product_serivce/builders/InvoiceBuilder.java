@@ -20,7 +20,7 @@ public class InvoiceBuilder {
 
     public InvoicePO buildInvoicePo(InvoiceDto invoiceDto){
 
-        String pk = tools.createPk(invoiceDto.getInvoiceNumber());
+        String pk = tools.createPk("dca-invoice-service");
         String sk = tools.getInstant();
         String appId = applicationProperties.getName();
 
