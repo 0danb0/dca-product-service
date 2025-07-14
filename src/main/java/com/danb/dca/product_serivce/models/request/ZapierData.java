@@ -9,4 +9,6 @@ public class ZapierData {
     private String applicationLicense;
     @JsonProperty("email-from")
     private String emailFrom;
+    @JsonProperty("file")
+    private String file;
 }

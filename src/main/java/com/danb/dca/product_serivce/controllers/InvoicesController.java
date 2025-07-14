@@ -35,13 +35,13 @@ public class InvoicesController {
     }
 
     @PostMapping(value = "/invoice/elaborator")
-    public ResponseEntity<Object> invoiceElaborator(@RequestParam("file") String fileUrl, @RequestPart("data") ZapierData zapierData) throws InvoiceException {
+    public ResponseEntity<Object> invoiceElaborator(@RequestPart("data") ZapierData zapierData) throws InvoiceException {
         log.info("- InvoceElaborator - START");
 
         checkApplicationLicense(zapierData.getApplicationLicense());
 
         try {
-            invoiceService.invoceElaborator(fileUrl,zapierData.getEmailFrom());
+            invoiceService.invoceElaborator(zapierData.getFile(),zapierData.getEmailFrom());
             log.info("- File uploaded and processed successfully");
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
