@@ -4,6 +4,7 @@ import com.danb.dca.product_serivce.models.dto.CompanyDto;
 import com.danb.dca.product_serivce.models.dto.InvoiceDto;
 import com.danb.dca.product_serivce.models.dto.ProductDto;
 import com.danb.dca.product_serivce.models.dto.PaymentInfoDto;
+import com.danb.dca.product_serivce.utils.Tools;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.Loader;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,11 +50,18 @@ public class PDFHelper {
     private static final String PAYMENT_METHOD = "MODALITÀ DI PAGAMENTO";
     private static final String UNKNOW = "UNKNOW";
 
+    private final Tools tools;
 
-    public InvoiceDto invoiceStripper(MultipartFile file) throws IOException {
+    public InvoiceDto invoiceStripper(String fileUrl) throws IOException {
         InvoiceDto invoiceDto = new InvoiceDto();
+
+        byte[] fileBytes = tools.downloadFileFromUrl(fileUrl);
+
         File tempFile = File.createTempFile(PREFIX_FILE_NAME, SUFFIX_FILE_NAME);
-        file.transferTo(tempFile);
+        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+            fos.write(fileBytes);
+        }
+
         try (PDDocument document = Loader.loadPDF(new RandomAccessReadBufferedFile(tempFile))) {
 
             PDFTextStripper stripper = new PDFTextStripper();

@@ -48,7 +48,7 @@ public class InvoiceService {
         }
 
 //      Step 3 - Lettura file
-        InvoiceDto invoiceDto = pdfHelper.invoiceStripper(file);
+        InvoiceDto invoiceDto = pdfHelper.invoiceStripper(fileUrl);
         invoiceDto.setEmailFrom(emailFrom);
 //      Step 4 - Persistenza dati estratti
         if(applicationProperties.isDatabasePersistence()){
