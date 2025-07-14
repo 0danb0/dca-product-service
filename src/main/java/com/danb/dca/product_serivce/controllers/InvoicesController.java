@@ -34,7 +34,7 @@ public class InvoicesController {
         return new ResponseEntity<>(genericHealthCheckResponse,HttpStatus.OK);
     }
 
-    @PostMapping(value = "/invoice/elaborator", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/invoice/elaborator")
     public ResponseEntity<Object> invoiceElaborator(@RequestParam("file") String fileUrl, @RequestPart("data") ZapierData zapierData) throws InvoiceException {
         log.info("- InvoceElaborator - START");
 
