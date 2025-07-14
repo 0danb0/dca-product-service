@@ -35,7 +35,7 @@ public class InvoicesController {
     }
 
     @PostMapping(value = "/invoice/elaborator")
-    public ResponseEntity<Object> invoiceElaborator(@RequestPart("data") ZapierData zapierData) throws InvoiceException {
+    public ResponseEntity<Object> invoiceElaborator(@RequestBody ZapierData zapierData) throws InvoiceException {
         log.info("- InvoceElaborator - START");
 
         checkApplicationLicense(zapierData.getApplicationLicense());
