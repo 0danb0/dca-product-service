@@ -2,6 +2,7 @@ package com.danb.dca.product_serivce.controllers;
 
 import com.danb.dca.product_serivce.builders.GenericBuilder;
 import com.danb.dca.product_serivce.exceptions.InvoiceException;
+import com.danb.dca.product_serivce.models.request.ZapierData;
 import com.danb.dca.product_serivce.models.response.GenericHealthCheckResponse;
 import com.danb.dca.product_serivce.properties.ApplicationProperties;
 import com.danb.dca.product_serivce.services.InvoiceService;
@@ -34,13 +35,13 @@ public class InvoicesController {
     }
 
     @PostMapping(value = "/invoice/elaborator", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Object> invoiceElaborator(@RequestParam("file") MultipartFile file,@RequestParam(value = "application-license") String applicationLicense,@RequestParam("email-from") String emailFrom) throws InvoiceException {
+    public ResponseEntity<Object> invoiceElaborator(@RequestParam("file") MultipartFile file, @RequestPart("data") ZapierData zapierData) throws InvoiceException {
         log.info("- InvoceElaborator - START");
 
-        checkApplicationLicense(applicationLicense);
+        checkApplicationLicense(zapierData.getApplicationLicense());
 
         try {
-            invoiceService.invoceElaborator(file,emailFrom);
+            invoiceService.invoceElaborator(file,zapierData.getEmailFrom());
             log.info("- File uploaded and processed successfully");
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
