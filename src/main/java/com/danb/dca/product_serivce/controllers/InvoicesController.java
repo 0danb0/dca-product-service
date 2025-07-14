@@ -10,6 +10,7 @@ import com.danb.dca.product_serivce.enums.ErrorMsg;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,8 +33,8 @@ public class InvoicesController {
         return new ResponseEntity<>(genericHealthCheckResponse,HttpStatus.OK);
     }
 
-    @PostMapping(value = "/invoice/elaborator")
-    public ResponseEntity<Object> invoiceElaborator(@RequestParam("file") MultipartFile file,@RequestParam(value = "application-license", required = false) String applicationLicense,@RequestParam("email-from") String emailFrom) throws InvoiceException {
+    @PostMapping(value = "/invoice/elaborator", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Object> invoiceElaborator(@RequestParam("file") MultipartFile file,@RequestParam(value = "application-license") String applicationLicense,@RequestParam("email-from") String emailFrom) throws InvoiceException {
         log.info("- InvoceElaborator - START");
 
         checkApplicationLicense(applicationLicense);
