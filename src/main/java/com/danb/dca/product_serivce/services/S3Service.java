@@ -8,7 +8,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -36,20 +42,45 @@ public class S3Service {
         return result;
     }
 
-    public String uploadFile(MultipartFile file, String folderName) {
+    public String uploadFile(String fileUrl, String folderName) {
         log.info("-- Upload file: START with folder name -> {}", folderName);
-
         String result;
+
         try {
-            String objectKey = folderName + "/" + file.getOriginalFilename();
-            s3Helper.uploadFile(objectKey, file.getInputStream(), file.getSize());
+            // Scarica il file da URL
+            byte[] fileBytes = downloadFileFromUrl(fileUrl);
+
+            // Genera nome file dinamico se necessario
+            String filename = extractFilenameFromUrl(fileUrl);
+            String objectKey = folderName + "/" + filename;
+
+            // Carica su S3
+            InputStream inputStream = new ByteArrayInputStream(fileBytes);
+            s3Helper.uploadFile(objectKey, inputStream, fileBytes.length);
+
             result = S3ServiceStatus.UPLOADED.getMessage();
-        }catch (S3CustomException | IOException e){
-            log.info("-- Upload file: Error -> {}", e.toString());
+
+        } catch (S3CustomException | IOException e) {
+            log.error("-- Upload file: Error -> {}", e.toString());
             return S3ServiceStatus.ERROR.getMessage();
         }
 
-        log.info("-- Upload file: DONE with result -> {}", folderName);
+        log.info("-- Upload file: DONE with result -> {}", result);
         return result;
+    }
+
+    private byte[] downloadFileFromUrl(String fileUrl) throws IOException {
+        try (InputStream in = new URL(fileUrl).openStream()) {
+            return in.readAllBytes();
+        }
+    }
+
+    private String extractFilenameFromUrl(String fileUrl) {
+        try {
+            return Paths.get(new URI(fileUrl).getPath()).getFileName().toString();
+        } catch (Exception e) {
+            log.warn("Failed to extract filename from URL: {}", fileUrl);
+            return UUID.randomUUID() + ".dat"; // fallback
+        }
     }
 }

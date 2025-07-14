@@ -35,13 +35,13 @@ public class InvoicesController {
     }
 
     @PostMapping(value = "/invoice/elaborator", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Object> invoiceElaborator(@RequestParam("file") MultipartFile file, @RequestPart("data") ZapierData zapierData) throws InvoiceException {
+    public ResponseEntity<Object> invoiceElaborator(@RequestParam("file") String fileUrl, @RequestPart("data") ZapierData zapierData) throws InvoiceException {
         log.info("- InvoceElaborator - START");
 
         checkApplicationLicense(zapierData.getApplicationLicense());
 
         try {
-            invoiceService.invoceElaborator(file,zapierData.getEmailFrom());
+            invoiceService.invoceElaborator(fileUrl,zapierData.getEmailFrom());
             log.info("- File uploaded and processed successfully");
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
