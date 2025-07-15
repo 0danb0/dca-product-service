@@ -34,7 +34,7 @@ build/
 
 ### Properties ###
 application.yml
+heroku.properties
 
 ### Localstack ###
-localstack-data/
 localstack-data/

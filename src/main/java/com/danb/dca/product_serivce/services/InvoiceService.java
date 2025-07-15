@@ -31,7 +31,7 @@ public class InvoiceService {
     private final InvoiceRepository invoiceRepository;
     private final ApplicationProperties applicationProperties;
 
-    public void invoceElaborator(MultipartFile file,String emailFrom) throws IOException, InvoiceException {
+    public void invoceElaborator(String fileUrl,String emailFrom) throws IOException, InvoiceException {
         log.info("-- InvoceElaborator START");
 
         String folderName = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yy"));
@@ -43,12 +43,12 @@ public class InvoiceService {
 
 
 //          Step 2 - Salvataggio della fattura per backup
-            String s3UploadBackupInvoice = s3Service.uploadFile(file, folderName);
+            String s3UploadBackupInvoice = s3Service.uploadFile(fileUrl, folderName);
             s3ServiceStatusCheck(s3UploadBackupInvoice);
         }
 
 //      Step 3 - Lettura file
-        InvoiceDto invoiceDto = pdfHelper.invoiceStripper(file);
+        InvoiceDto invoiceDto = pdfHelper.invoiceStripper(fileUrl);
         invoiceDto.setEmailFrom(emailFrom);
 //      Step 4 - Persistenza dati estratti
         if(applicationProperties.isDatabasePersistence()){
