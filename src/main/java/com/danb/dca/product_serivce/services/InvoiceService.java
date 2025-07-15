@@ -65,10 +65,10 @@ public class InvoiceService {
     private static void s3ServiceStatusCheck(String serviceStatusMessage) throws InvoiceException {
         if(serviceStatusMessage.equals(S3_SERVICE_STATUS_ERROR_MESSAGE_STRING)){
             throw new InvoiceException(
-                ErrorMsg.DCA_PRD_SRV_03.getCode(),
-                ErrorMsg.DCA_PRD_SRV_03.getMessage(),
-                DomainMsg.S3_SERVICE_TECHNICAL.getName(),
-                ErrorMsg.DCA_PRD_SRV_03.getCode()
+                    ErrorMsg.DCA_PRD_SRV_03.getCode(),
+                    ErrorMsg.DCA_PRD_SRV_03.getMessage(),
+                    DomainMsg.S3_SERVICE_TECHNICAL.getName(),
+                    ErrorMsg.DCA_PRD_SRV_03.getCode()
             );
         }
     }

@@ -25,3 +25,4 @@ aws:
 security:
   licensed-apps:
     - local-postman
+    - zapier
