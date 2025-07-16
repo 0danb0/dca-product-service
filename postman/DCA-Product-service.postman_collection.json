@@ -69,12 +69,13 @@
 							"raw": "  {\r\n      \"email\": \"davide@gmail.com\",\r\n      \"password\": \"davide123\"\r\n  }\r\n"
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/invoice/health",
-							"protocol": "http",
+							"raw": "https://dca-invoice-service-539e803c5baa.herokuapp.com/api/invoice/health",
+							"protocol": "https",
 							"host": [
-								"localhost"
+								"dca-invoice-service-539e803c5baa",
+								"herokuapp",
+								"com"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"invoice",
@@ -150,7 +151,63 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/E:/archivio/Websites/denis/fatture-test/Fattura-2129_2024-The-Pantheon-Hotel--MDM-SRL.pdf"
+									"src": "/E:/root/workspaces/Studio/leonardo/java/invoice-service/src/main/resources/docs/Fattura-5-PLAYA 2025 SOCIETA A RESPONSABILITA LIMITATA SEMPLIFICATA.pdf"
+								},
+								{
+									"key": "email-from",
+									"value": "test@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://dca-invoice-service-539e803c5baa.herokuapp.com/api/invoice/elaborator",
+							"protocol": "https",
+							"host": [
+								"dca-invoice-service-539e803c5baa",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"invoice",
+								"elaborator"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test local",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-APP-KEY",
+								"value": "local-postman",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "application-license",
+									"value": "43776c6a-ca4d-4e77-9f33-2ac521c75534",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/danil/Desktop/Fattura-5-PLAYA 2025 SOCIETA A RESPONSABILITA LIMITATA SEMPLIFICATA.pdf"
+								},
+								{
+									"key": "email-from",
+									"value": "test@gmail.com",
+									"type": "text"
 								}
 							]
 						},
